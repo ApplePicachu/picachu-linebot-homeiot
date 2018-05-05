@@ -22,32 +22,41 @@ const linebotParser = bot.parser();
 //Express init.
 const app = Express();
 
-// app.post('/hgrok/url', (req, res) => res.send('Hello World!'))
+app.post('/hgrok/url', (req, res) => {
+    sqlManager.insertSetting({key:'test', value:'test'}, (err, res) => {
+        if (err) {
+            console.log('Error.\n'+err.stack);
+        } else {
+            console.log('Success.\n' + JSON.stringify(res));
+        }
+    });
+    res.send('Hello World!');
+})
 // app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
 
-const asyncRun = async () => {
+const connectSqlAsyncRun = async () => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
     //Init sql manager
     sqlManager = new SqlManager(client);
     return sqlManager;
 }
-asyncRun().then((sqlManager) => {
-    console.log('asyncRun success');
+connectSqlAsyncRun().then((sqlManager) => {
+    console.log('SQL connect success. App start.');
     var server = app.listen(process.env.PORT || 8080, () => {
         var port = server.address().port;
         console.log("App now running on port", port);
     
         sqlManager.createTables((err, res) => {
             if (err) {
-                console.log('createTables error\n'+err.stack);
+                console.log('Create table error.\n'+err.stack);
             } else {
-                console.log('Create\n' + JSON.stringify(res));
+                console.log('Create table success.\n' + JSON.stringify(res));
             }
         });
     });
 }).catch(err => {
-    console.log('asyncRun fail\n' + err);
+    console.log('SQL connect fail.\n' + err.stack);
 })
 

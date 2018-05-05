@@ -19,7 +19,7 @@ SQLManager = function (client) {
     // }
     this.insertSetting = function (setting, callback) {
         const sqlCmd = 'INSERT INTO settings(key, value) VALUES($1, $2)';
-        client.query(sqlCmd, [profile.userId, profile.displayName], callback);
+        client.query(sqlCmd, [setting.key, setting.value], callback);
     }
     this.getSetting = function (key, callback) {
         const sqlCmd = 'SELECT * FROM settings WHERE key = $1';
