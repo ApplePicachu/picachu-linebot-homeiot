@@ -57,13 +57,13 @@ connectSqlAsyncRun().then((sqlManager) => {
         var port = server.address().port;
         console.log("App now running on port", port);
     
-        sqlManager.createTables((err, res) => {
-            if (err) {
-                console.log('Create table error.\n'+err.stack);
-            } else {
-                console.log('Create table success.\n' + JSON.stringify(res));
-            }
-        });
+        // sqlManager.createTables((err, res) => {
+        //     if (err) {
+        //         console.log('Create table error.\n'+err.stack);
+        //     } else {
+        //         console.log('Create table success.\n' + JSON.stringify(res));
+        //     }
+        // });
     });
 }).catch(err => {
     console.log('SQL connect fail.\n' + err.stack);
