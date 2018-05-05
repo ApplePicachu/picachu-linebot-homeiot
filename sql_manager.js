@@ -19,7 +19,7 @@ SQLManager = function (client) {
     // }
     this.insertSetting = function (setting, callback) {
         const sqlCmd = 'INSERT INTO settings(key, value) VALUES($1, $2)\
-        ON CONFLICT (key) DO UPDATE SET value = value;';
+        ON CONFLICT (key) DO UPDATE SET value = $2;';
         client.query(sqlCmd, [setting.key, setting.value], callback);
     }
     this.getSetting = function (key, callback) {
