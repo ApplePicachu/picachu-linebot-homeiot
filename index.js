@@ -40,11 +40,11 @@ var server = app.listen(process.env.PORT || 8080, () => {
     var port = server.address().port;
     console.log("App now running on port", port);
 
-    sqlManager.createTables((err, res) => {
-        if (err) {
-            console.log('createTables error\n'+err.stack);
-        } else {
-            console.log('Create\n' + JSON.stringify(res));
-        }
-    });
+    // sqlManager.createTables((err, res) => {
+    //     if (err) {
+    //         console.log('createTables error\n'+err.stack);
+    //     } else {
+    //         console.log('Create\n' + JSON.stringify(res));
+    //     }
+    // });
 });
