@@ -32,7 +32,16 @@ app.post('/hgrok/url', (req, res) => {
     });
     res.send('Hello World!');
 })
-// app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
+app.get('/hgrok/url', (req, res) => {
+    sqlManager.getSetting('test', (err, sqlRes) => {
+        if (err) {
+            console.log('Error.\n'+err.stack);
+        } else {
+            console.log('Success.\n' + JSON.stringify(sqlRes));
+            res.send(sqlRes);
+        }
+    });
+});
 app.post('/', linebotParser);
 
 const connectSqlAsyncRun = async () => {
