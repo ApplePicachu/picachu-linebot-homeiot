@@ -1,5 +1,5 @@
 const Express = require('express');
-const Pg = require('pg');//Postgres
+const { PgClient } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const SqlManager = require('./sql_manager');
 
@@ -8,11 +8,15 @@ const SqlManager = require('./sql_manager');
 //     connectionString: process.env.DATABASE_URL,
 //     ssl: true,
 // });
-Pg.connect({ connectionString: process.env.DATABASE_URL, ssl: true}, function (err, client, done) {
-    if (err) {
-        console.log("not able to get connection " + err);
-    }
+// PgClient.connect({ connectionString: process.env.DATABASE_URL, ssl: true}, function (err, client, done) {
+//     if (err) {
+//         console.log("not able to get connection " + err);
+//     }
+// });
+const client = new PgClient({
+    connectionString: process.env.DATABASE_URL,
 });
+client.connect()
 
 //Init sql manager
 // var sqlManager = new SqlManager(client);
