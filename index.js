@@ -26,14 +26,14 @@ const app = Express();
 // app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
 
-var sqlManager;
 const asyncRun = async () => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
     //Init sql manager
     sqlManager = new SqlManager(client);
+    return sqlManager;
 }
-asyncRun().then(() => {
+asyncRun().then((sqlManager) => {
     console.log('asyncRun success');
     var server = app.listen(process.env.PORT || 8080, () => {
         var port = server.address().port;
