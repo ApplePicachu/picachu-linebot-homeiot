@@ -17,8 +17,16 @@ const SqlManager = require('./sql_manager');
 //     connectionString: process.env.DATABASE_URL,
 // });
 // client.connect()
-const client = new Client()
-await client.connect()
+const asyncRun = async () => {
+    const client = new Client()
+    await client.connect()
+}
+asyncRun().then(string => {
+    console.log(string)
+}).catch(response => {
+    console.log(string)
+})
+
 
 //Init sql manager
 // var sqlManager = new SqlManager(client);
