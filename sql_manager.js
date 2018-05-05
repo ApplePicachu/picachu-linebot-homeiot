@@ -1,17 +1,22 @@
 SQLManager = function (client) {
     this.client = client;
-    // this.checkExistsTableUser = function (callback) {
-    //     checkExistsTable(client, 'service_users', callback);
-    // }
+    this.checkTables = function (callback) {
+        checkExistsTable(client, 'settings', callback);
+    }
     this.createTables = function (callback) {
-        client.query('\
-        CREATE TABLE IF NOT EXISTS settings (\
-            key varchar(20) NOT NULL UNIQUE,\
-            value TEXT,\
-            CONSTRAINT service_users_pk PRIMARY KEY (key)\
-        ) WITH (\
-        OIDS=FALSE\
-        );', callback);
+        checkExistsTable(client, 'settings', (err, res) => {
+            if (res) callback(err, res);
+            else {
+                client.query('\
+                CREATE TABLE IF NOT EXISTS settings (\
+                    key varchar(20) NOT NULL UNIQUE,\
+                    value TEXT,\
+                    CONSTRAINT service_users_pk PRIMARY KEY (key)\
+                ) WITH (\
+                OIDS=FALSE\
+                );', callback);
+            } 
+        });
     }
     // this.selectUserById = function (userId, callback) {
     //     const sqlCmd = 'SELECT * FROM service_users WHERE line_id = $1';
