@@ -1,5 +1,5 @@
 const Express = require('express');
-const { PgClient } = require('pg')
+const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const SqlManager = require('./sql_manager');
 
@@ -13,10 +13,12 @@ const SqlManager = require('./sql_manager');
 //         console.log("not able to get connection " + err);
 //     }
 // });
-const client = new PgClient({
-    connectionString: process.env.DATABASE_URL,
-});
-client.connect()
+// const client = new PgClient({
+//     connectionString: process.env.DATABASE_URL,
+// });
+// client.connect()
+const client = new Client()
+await client.connect()
 
 //Init sql manager
 // var sqlManager = new SqlManager(client);
