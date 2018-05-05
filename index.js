@@ -18,13 +18,13 @@ const SqlManager = require('./sql_manager');
 // });
 // client.connect()
 const asyncRun = async () => {
-    const client = new Client()
-    await client.connect()
+    const client = new Client();
+    await client.connect();
 }
 asyncRun().then(() => {
-    // console.log()
+    console.log('asyncRun success');
 }).catch(response => {
-    // console.log()
+    console.log('asyncRun fail');
 })
 
 
