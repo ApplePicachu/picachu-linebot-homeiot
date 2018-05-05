@@ -1,10 +1,10 @@
 const Express = require('express');
-const { Client } = require('pg');//Postgres
+const Pg = require('pg');//Postgres
 const Linebot = require('linebot');//Line Bot API
 const SqlManager = require('./sql_manager');
 
 //Postgres connect
-const client = new Client({
+const client = new Pg({
     connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
