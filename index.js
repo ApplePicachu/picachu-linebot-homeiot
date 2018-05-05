@@ -4,11 +4,15 @@ const Linebot = require('linebot');//Line Bot API
 const SqlManager = require('./sql_manager');
 
 //Postgres connect
-const client = new Pg({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
+// const client = new Pg({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true,
+// });
+Pg.connect({ connectionString: process.env.DATABASE_URL, ssl: true}, function (err, client, done) {
+    if (err) {
+        console.log("not able to get connection " + err);
+    }
 });
-client.connect();
 
 //Init sql manager
 // var sqlManager = new SqlManager(client);
