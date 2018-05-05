@@ -8,7 +8,7 @@ const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
-client.connect();
+// client.connect();
 
 //Init sql manager
 // var sqlManager = new SqlManager(client);
