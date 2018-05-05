@@ -8,7 +8,7 @@ SQLManager = function (client) {
         CREATE TABLE IF NOT EXISTS "settings" (\
             "key" char(20) NOT NULL UNIQUE,\
             "value" TEXT,\
-            CONSTRAINT service_users_pk PRIMARY KEY ("name")\
+            CONSTRAINT service_users_pk PRIMARY KEY ("key")\
         ) WITH (\
         OIDS=FALSE\
         );', callback);
