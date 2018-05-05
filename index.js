@@ -3,36 +3,6 @@ const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const SqlManager = require('./sql_manager');
 
-//Postgres connect
-// const client = new Pg({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true,
-// });
-// PgClient.connect({ connectionString: process.env.DATABASE_URL, ssl: true}, function (err, client, done) {
-//     if (err) {
-//         console.log("not able to get connection " + err);
-//     }
-// });
-// const client = new PgClient({
-//     connectionString: process.env.DATABASE_URL,
-// });
-// client.connect()
-var sqlManager;
-const asyncRun = async () => {
-    const client = new Client({ connectionString: process.env.DATABASE_URL, });
-    await client.connect();
-    //Init sql manager
-    sqlManager = new SqlManager(client);
-}
-asyncRun().then(() => {
-    console.log('asyncRun success');
-
-}).catch(err => {
-    console.log('asyncRun fail\n' + err);
-})
-
-
-
 
 //Create linebot parser
 var bot = Linebot({
@@ -56,15 +26,28 @@ const app = Express();
 // app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
 
-var server = app.listen(process.env.PORT || 8080, () => {
-    var port = server.address().port;
-    console.log("App now running on port", port);
-
-    sqlManager.createTables((err, res) => {
-        if (err) {
-            console.log('createTables error\n'+err.stack);
-        } else {
-            console.log('Create\n' + JSON.stringify(res));
-        }
+var sqlManager;
+const asyncRun = async () => {
+    const client = new Client({ connectionString: process.env.DATABASE_URL, });
+    await client.connect();
+    //Init sql manager
+    sqlManager = new SqlManager(client);
+}
+asyncRun().then(() => {
+    console.log('asyncRun success');
+    var server = app.listen(process.env.PORT || 8080, () => {
+        var port = server.address().port;
+        console.log("App now running on port", port);
+    
+        sqlManager.createTables((err, res) => {
+            if (err) {
+                console.log('createTables error\n'+err.stack);
+            } else {
+                console.log('Create\n' + JSON.stringify(res));
+            }
+        });
     });
-});
+}).catch(err => {
+    console.log('asyncRun fail\n' + err);
+})
+
