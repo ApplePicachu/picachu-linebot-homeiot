@@ -10,7 +10,7 @@ const Linebot = require('linebot');//Line Bot API
 // client.connect();
 
 //Create linebot parser
-var bot = linebot({
+var bot = Linebot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
