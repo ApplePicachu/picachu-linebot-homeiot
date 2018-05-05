@@ -17,19 +17,22 @@ const SqlManager = require('./sql_manager');
 //     connectionString: process.env.DATABASE_URL,
 // });
 // client.connect()
+var sqlManager;
 const asyncRun = async () => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
+    //Init sql manager
+    sqlManager = new SqlManager(client);
 }
 asyncRun().then(() => {
     console.log('asyncRun success');
+
 }).catch(err => {
     console.log('asyncRun fail\n' + err);
 })
 
 
-//Init sql manager
-// var sqlManager = new SqlManager(client);
+
 
 //Create linebot parser
 var bot = Linebot({
@@ -57,11 +60,11 @@ var server = app.listen(process.env.PORT || 8080, () => {
     var port = server.address().port;
     console.log("App now running on port", port);
 
-    // sqlManager.createTables((err, res) => {
-    //     if (err) {
-    //         console.log('createTables error\n'+err.stack);
-    //     } else {
-    //         console.log('Create\n' + JSON.stringify(res));
-    //     }
-    // });
+    sqlManager.createTables((err, res) => {
+        if (err) {
+            console.log('createTables error\n'+err.stack);
+        } else {
+            console.log('Create\n' + JSON.stringify(res));
+        }
+    });
 });
