@@ -24,6 +24,7 @@ SQLManager = function (client) {
     }
     this.getSetting = function (key, callback) {
         const sqlCmd = 'SELECT * FROM settings WHERE key = ' + key;
+        console.log(sqlCmd);
         client.query(sqlCmd, callback);
     }
 }
