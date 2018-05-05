@@ -32,7 +32,7 @@ app.post('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
 
-app.listen(process.env.PORT || 8080, () => {
+var server = app.listen(process.env.PORT || 8080, () => {
     var port = server.address().port;
     console.log("App now running on port", port);
 
