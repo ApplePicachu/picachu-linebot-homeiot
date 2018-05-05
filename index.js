@@ -3,15 +3,15 @@ const { Client } = require('pg');//Postgres
 const Linebot = require('linebot');//Line Bot API
 const SqlmManager = require('./sql_manager');
 
-// //Postgres connect
-// const client = new Client({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true,
-// });
-// client.connect();
+//Postgres connect
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+});
+client.connect();
 
 //Init sql manager
-// var sqlManager = new SqlmManager(client);
+var sqlManager = new SqlmManager(client);
 
 //Create linebot parser
 var bot = Linebot({
