@@ -1,0 +1,25 @@
+{
+  "name": "picachu-linebot-homeiot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "pg": "7.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node .",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ApplePicachu/picachu-linebot-homeiot.git"
+  },
+  "author": "Picachu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ApplePicachu/picachu-linebot-homeiot/issues"
+  },
+  "homepage": "https://github.com/ApplePicachu/picachu-linebot-homeiot#readme"
+}
