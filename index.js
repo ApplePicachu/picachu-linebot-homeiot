@@ -42,7 +42,7 @@ var server = app.listen(process.env.PORT || 8080, () => {
 
     sqlManager.createTables((err, res) => {
         if (err) {
-            console.log(err.stack);
+            console.log('createTables error\n'+err.stack);
         } else {
             console.log('Create\n' + JSON.stringify(res));
         }
