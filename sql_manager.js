@@ -18,12 +18,13 @@ SQLManager = function (client) {
     //     client.query(sqlCmd, [userId], callback);
     // }
     this.insertSetting = function (setting, callback) {
-        const sqlCmd = 'INSERT INTO settings(key, value) VALUES($1, $2)';
+        const sqlCmd = 'INSERT INTO settings(key, value) VALUES($1, $2);\
+        ON CONFLICT (key) DO UPDATE SET value = value;';
         client.query(sqlCmd, [setting.key, setting.value], callback);
     }
     this.getSetting = function (key, callback) {
-        const sqlCmd = 'SELECT * FROM settings WHERE key = $1';
-        client.query(sqlCmd, key, callback);
+        const sqlCmd = 'SELECT * FROM settings WHERE key = ' + key;
+        client.query(sqlCmd, callback);
     }
 }
 module.exports = SQLManager;
