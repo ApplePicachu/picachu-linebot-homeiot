@@ -32,8 +32,8 @@ const linebotParser = bot.parser();
 const app = Express();
 
 // app.get('/', (req, res) => res.send('Hello World!'));
-app.post('/hgrok/url', (req, res) => res.send('Hello World!'))
-app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
+// app.post('/hgrok/url', (req, res) => res.send('Hello World!'))
+// app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
 
 var server = app.listen(process.env.PORT || 8080, () => {
