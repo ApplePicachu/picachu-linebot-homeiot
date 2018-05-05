@@ -18,13 +18,13 @@ const SqlManager = require('./sql_manager');
 // });
 // client.connect()
 const asyncRun = async () => {
-    const client = new Client({ connectionString: process.env.DATABASE_URL });
+    const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
 }
 asyncRun().then(() => {
     console.log('asyncRun success');
-}).catch(response => {
-    console.log('asyncRun fail\n' + response);
+}).catch(err => {
+    console.log('asyncRun fail\n' + err);
 })
 
 
