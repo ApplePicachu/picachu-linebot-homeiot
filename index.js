@@ -11,7 +11,7 @@ const client = new Client({
 client.connect();
 
 //Init sql manager
-const sqlManager = new SqlManager(client);
+// var sqlManager = new SqlManager(client);
 
 //Create linebot parser
 var bot = Linebot({
