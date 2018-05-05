@@ -2,12 +2,12 @@ const Express = require('express');
 const { Client } = require('pg');//Postgres
 const Linebot = require('linebot');//Line Bot API
 
-//Postgres connect
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-});
-client.connect();
+// //Postgres connect
+// const client = new Client({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true,
+// });
+// client.connect();
 
 //Create linebot parser
 var bot = linebot({
@@ -29,4 +29,5 @@ const app = Express();
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.post('/linewebhook', linebotParser);
+
 app.listen(process.env.PORT || 8080, () => console.log('Example app listening on port 8080!'));
