@@ -5,10 +5,10 @@ SQLManager = function (client) {
     // }
     this.createTables = function (callback) {
         client.query('\
-        CREATE TABLE IF NOT EXISTS "settings" (\
-            "key" char(20) NOT NULL UNIQUE,\
-            "value" TEXT,\
-            CONSTRAINT service_users_pk PRIMARY KEY ("key")\
+        CREATE TABLE IF NOT EXISTS settings (\
+            key varchar(20) NOT NULL UNIQUE,\
+            value TEXT,\
+            CONSTRAINT service_users_pk PRIMARY KEY (key)\
         ) WITH (\
         OIDS=FALSE\
         );', callback);
@@ -23,9 +23,8 @@ SQLManager = function (client) {
         client.query(sqlCmd, [setting.key, setting.value], callback);
     }
     this.getSetting = function (key, callback) {
-        const sqlCmd = 'SELECT * FROM settings WHERE key = \'' + key + '\'';
-        // const sqlCmd = 'SELECT * FROM settings';
-        console.log(sqlCmd);
+        const sqlCmd = 'SELECT * FROM settings WHERE key=\'' + key + '\'';
+        // console.log(sqlCmd);
         client.query(sqlCmd, callback);
     }
 }
