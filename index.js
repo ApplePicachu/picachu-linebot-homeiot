@@ -21,10 +21,10 @@ const asyncRun = async () => {
     const client = new Client()
     await client.connect()
 }
-asyncRun().then(string => {
-    console.log(string)
+asyncRun().then(() => {
+    // console.log()
 }).catch(response => {
-    console.log(string)
+    // console.log()
 })
 
 
