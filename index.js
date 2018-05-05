@@ -1,7 +1,7 @@
 const Express = require('express');
 const { Client } = require('pg');//Postgres
 const Linebot = require('linebot');//Line Bot API
-const sm = require('./sql_manager');
+const SqlManager = require('./sql_manager');
 
 //Postgres connect
 const client = new Client({
@@ -11,7 +11,7 @@ const client = new Client({
 client.connect();
 
 //Init sql manager
-var sqlManager = new sm(client);
+const sqlManager = new SqlManager(client);
 
 //Create linebot parser
 var bot = Linebot({
@@ -31,7 +31,6 @@ const linebotParser = bot.parser();
 //Express init.
 const app = Express();
 
-// app.get('/', (req, res) => res.send('Hello World!'));
 // app.post('/hgrok/url', (req, res) => res.send('Hello World!'))
 // app.get('/hgrok/url', (req, res) => res.send('Hello World!'))
 app.post('/', linebotParser);
