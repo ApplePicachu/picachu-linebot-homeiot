@@ -27,7 +27,7 @@ const linebotParser = bot.parser();
 //Express init.
 const app = Express();
 
-app.get('/', (req, res) => res.send('Hello World!'));
-app.post('/linewebhook', linebotParser);
+// app.get('/', (req, res) => res.send('Hello World!'));
+app.post('/', linebotParser);
 
 app.listen(process.env.PORT || 8080, () => console.log('Example app listening on port 8080!'));
