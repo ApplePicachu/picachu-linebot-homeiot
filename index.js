@@ -19,7 +19,7 @@ bot.on('message', function (event) {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
-                           'data': event.message.text }
+                           'data': encodeURIComponent(event.message.text) }
             };
             request(options, (reqErr, reqRes, body) => {
                 var replyStr = '';
