@@ -25,11 +25,11 @@ const app = Express();
 
 app.post('/ngrok/url', (req, res) => {
     console.log(req.headers.data);
-    sqlManager.insertSetting({key:'ngrok_url', value:req.headers.data}, (err, res) => {
+    sqlManager.insertSetting({key:'ngrok_url', value:req.headers.data}, (err, sqlRes) => {
         if (err) {
             console.log('Error.\n'+err.stack);
         } else {
-            console.log('Success.\n' + JSON.stringify(res));
+            console.log('Success.\n' + JSON.stringify(sqlRes));
             var options = {
                 url: req.headers.data,
                 method: 'GET',
