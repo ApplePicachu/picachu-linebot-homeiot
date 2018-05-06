@@ -23,7 +23,8 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/hgrok/url', (req, res) => {
-    sqlManager.insertSetting({key:'test', value:'test'}, (err, res) => {
+    console.log(req);
+    sqlManager.insertSetting({key:'test', value:''}, (err, res) => {
         if (err) {
             console.log('Error.\n'+err.stack);
         } else {
@@ -44,7 +45,7 @@ app.get('/hgrok/url', (req, res) => {
 });
 app.post('/', linebotParser);
 
-const connectSqlAsyncRun = async () => {
+const connectSqlAsyncRun = async() => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
     //Init sql manager
