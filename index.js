@@ -13,7 +13,7 @@ var bot = Linebot({
 });
 bot.on('message', function (event) {
     sqlManager.getSetting('ngrok_url', (sqlErr, sqlRes) => {
-        if (!sqlEerr) {
+        if (!sqlErr) {
             console.log('Success.\n' + JSON.stringify(sqlRes));
             var options = {
                 url: sqlRes.rows.value,
@@ -31,13 +31,13 @@ bot.on('message', function (event) {
                     replyStr = 'Request ngrok_url error.';
                 } else {
                     console.log('Request ngrok_url with error code:' + reqRes.statusCode);
-                    replyStr = 'Request ngrok_url with error code: '+reqRes.statusCode;
+                    replyStr = 'Request ngrok_url with error code: ' + reqRes.statusCode;
                 }
                 event.reply(replyStr)
-                .catch(function (err) {
-                    // Line event send error
-                    console.log('Error.\n' + err.stack);
-                });
+                    .catch(function (err) {
+                        // Line event send error
+                        console.log('Error.\n' + err.stack);
+                    });
             });
         } else {
             console.log('Error.\n' + sqlErr.stack);
