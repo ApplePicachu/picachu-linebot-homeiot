@@ -16,7 +16,7 @@ bot.on('message', function (event) {
         if (!sqlErr) {
             console.log('Success.\n' + JSON.stringify(sqlRes));
             var options = {
-                url: sqlRes.rows.value,
+                url: sqlRes.rows[0].value,
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 form: { 'data': event.message.text }
