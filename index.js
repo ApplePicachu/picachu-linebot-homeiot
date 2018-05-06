@@ -63,7 +63,7 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/ngrok/url', (req, res) => {
-    console.log(req.headers);
+    console.log(req.body);
     var options = {
         url: req.body.data,
         method: 'GET',
