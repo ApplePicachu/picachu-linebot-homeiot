@@ -63,13 +63,13 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/ngrok/url', (req, res) => {
-    console.log(req.body);
+    console.log(req);
     var options = {
         url: req.body.data,
         method: 'GET',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
-    // console.log(options);
+    console.log(options);
     request(options, (reqErr, reqRes, body) => {
         if (!reqErr && reqRes.statusCode == 200) {
             console.log(body);
