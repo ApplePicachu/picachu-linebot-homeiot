@@ -62,13 +62,13 @@ const linebotParser = bot.parser();
 //Express init.
 const app = Express();
 
-app.post('/ngrok/url', (req, res, body) => {
+app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
-    body.on('data', chunk => {
+    req.on('data', chunk => {
         console.log('data received: ' + chunk.toString());
         body += chunk.toString();
     });
-    body.on('end', ()=>{
+    req.on('end', ()=>{
         var options = {
             url: bodyStr,
             method: 'GET',
