@@ -18,8 +18,8 @@ bot.on('message', function (event) {
             var options = {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
-                           'data': encodeURIComponent(event.message.text) }
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'  },
+                form: {'data': encodeURIComponent(event.message.text)}
             };
             request(options, (reqErr, reqRes, body) => {
                 var replyStr = '';
@@ -65,7 +65,7 @@ const app = Express();
 app.post('/ngrok/url', (req, res) => {
     console.log(req.headers);
     var options = {
-        url: req.headers.data,
+        url: req.body.data,
         method: 'GET',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
@@ -73,7 +73,7 @@ app.post('/ngrok/url', (req, res) => {
     request(options, (reqErr, reqRes, body) => {
         if (!reqErr && reqRes.statusCode == 200) {
             console.log(body);
-            sqlManager.insertSetting({ key: 'ngrok_url', value: req.headers.data }, (sqlErr, sqlRes) => {
+            sqlManager.insertSetting({ key: 'ngrok_url', value: req.body.data }, (sqlErr, sqlRes) => {
                 if (sqlErr) {
                     console.log('Error.\n' + sqlErr.stack);
                 } else {
