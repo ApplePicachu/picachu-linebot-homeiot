@@ -69,25 +69,26 @@ app.post('/ngrok/url', (req, res) => {
         method: 'GET',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
-    request(options, (reqErr, reqRes, body) => {
-        if (!reqErr && reqRes.statusCode == 200) {
-            console.log(body);
-            sqlManager.insertSetting({ key: 'ngrok_url', value: req.headers.data }, (sqlErr, sqlRes) => {
-                if (sqlErr) {
-                    console.log('Error.\n' + sqlErr.stack);
-                } else {
-                    console.log('Success.\n' + JSON.stringify(sqlRes));
-                    res.send('Success');
-                }
-            });
-        } else if (reqErr) {
-            console.log('Error.\n' + reqErr.stack);
-            res.send('Error');
-        } else {
-            console.log('Fail with error code: ' + reqRes.statusCode);
-            res.send('Fail with error code: ' + reqRes.statusCode);
-        }
-    });
+    console.log(options);
+    // request(options, (reqErr, reqRes, body) => {
+    //     if (!reqErr && reqRes.statusCode == 200) {
+    //         console.log(body);
+    //         sqlManager.insertSetting({ key: 'ngrok_url', value: req.headers.data }, (sqlErr, sqlRes) => {
+    //             if (sqlErr) {
+    //                 console.log('Error.\n' + sqlErr.stack);
+    //             } else {
+    //                 console.log('Success.\n' + JSON.stringify(sqlRes));
+    //                 res.send('Success');
+    //             }
+    //         });
+    //     } else if (reqErr) {
+    //         console.log('Error.\n' + reqErr.stack);
+    //         res.send('Error');
+    //     } else {
+    //         console.log('Fail with error code: ' + reqRes.statusCode);
+    //         res.send('Fail with error code: ' + reqRes.statusCode);
+    //     }
+    // });
 });
 
 app.get('/sql/settings/:setting_key', (req, res) => {
