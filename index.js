@@ -66,7 +66,7 @@ app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
     req.on('data', chunk => {
         console.log('data received: ' + chunk.toString());
-        body += chunk.toString();
+        bodyStr += chunk.toString();
     });
     req.on('end', ()=>{
         var options = {
