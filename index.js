@@ -46,42 +46,46 @@ app.post('/ngrok/url', (req, res) => {
         } else {
             console.log('Fail with error code: \n' + reqRes.statusCode);
         }
-    })
-    app.get('/sql/settings/:setting_key', (req, res) => {
-        sqlManager.getSetting(req.params.setting_key, (err, sqlRes) => {
+    });
+});
+
+app.get('/sql/settings/:setting_key', (req, res) => {
+    sqlManager.getSetting(req.params.setting_key, (err, sqlRes) => {
+        if (err) {
+            console.log('Error.\n' + err.stack);
+        } else {
+            console.log('Success.\n' + JSON.stringify(sqlRes));
+            res.send(sqlRes);
+        }
+    });
+});
+
+app.post('/', linebotParser);
+
+const connectSqlAsyncRun = async () => {
+    const client = new Client({ connectionString: process.env.DATABASE_URL, });
+    await client.connect();
+    //Init sql manager
+    sqlManager = new SqlManager(client);
+    return sqlManager;
+}
+
+connectSqlAsyncRun().then((sqlManager) => {
+    console.log('SQL connect success. App start.');
+    var server = app.listen(process.env.PORT || 8080, () => {
+        var port = server.address().port;
+        console.log("App now running on port", port);
+
+        sqlManager.createTables((err, res) => {
             if (err) {
-                console.log('Error.\n' + err.stack);
+                console.log('Create table error.\n' + err.stack);
             } else {
-                console.log('Success.\n' + JSON.stringify(sqlRes));
-                res.send(sqlRes);
+                if (res == true) console.log('Table exists');
+                else console.log('Create table success.\n' + JSON.stringify(res));
             }
         });
     });
-    app.post('/', linebotParser);
-
-    const connectSqlAsyncRun = async () => {
-        const client = new Client({ connectionString: process.env.DATABASE_URL, });
-        await client.connect();
-        //Init sql manager
-        sqlManager = new SqlManager(client);
-        return sqlManager;
-    }
-    connectSqlAsyncRun().then((sqlManager) => {
-        console.log('SQL connect success. App start.');
-        var server = app.listen(process.env.PORT || 8080, () => {
-            var port = server.address().port;
-            console.log("App now running on port", port);
-
-            sqlManager.createTables((err, res) => {
-                if (err) {
-                    console.log('Create table error.\n' + err.stack);
-                } else {
-                    if (res == true) console.log('Table exists');
-                    else console.log('Create table success.\n' + JSON.stringify(res));
-                }
-            });
-        });
-    }).catch(err => {
-        console.log('SQL connect fail.\n' + err.stack);
-    })
+}).catch(err => {
+    console.log('SQL connect fail.\n' + err.stack);
+})
 
