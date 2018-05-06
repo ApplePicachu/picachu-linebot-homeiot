@@ -1,6 +1,7 @@
 const Express = require('express');
 const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
+const request = require('request');
 const SqlManager = require('./sql_manager');
 
 
@@ -29,9 +30,20 @@ app.post('/ngrok/url', (req, res) => {
             console.log('Error.\n'+err.stack);
         } else {
             console.log('Success.\n' + JSON.stringify(res));
+            var options = {
+                url: req.headers.data,
+                method: 'GET',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            };
+            request(options, (reqErr, reqRes, body) => {
+                if (!reqErr && reqRes.statusCode == 200){
+                    console.log(body);
+                }
+            })
+            res.send('Success');
         }
     });
-    res.send('Hello World!');
+    
 })
 app.get('/sql/settings/:setting_key', (req, res) => {
     sqlManager.getSetting(req.params.setting_key, (err, sqlRes) => {
@@ -62,7 +74,8 @@ connectSqlAsyncRun().then((sqlManager) => {
             if (err) {
                 console.log('Create table error.\n'+err.stack);
             } else {
-                console.log('Create table success.\n' + JSON.stringify(res));
+                if(res == true) console.log('Table exists');
+                else  console.log('Create table success.\n' + JSON.stringify(res));
             }
         });
     });
