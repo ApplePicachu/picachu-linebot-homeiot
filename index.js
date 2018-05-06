@@ -33,7 +33,7 @@ bot.on('message', function (event) {
                     console.log('Request ngrok_url with error code:' + reqRes.statusCode);
                     replyStr = 'Request ngrok_url with error code: ' + reqRes.statusCode;
                 }
-                event.reply(escape(replyStr))
+                event.reply(decodeURIComponent(replyStr))
                     .catch(function (err) {
                         // Line event send error
                         console.log('Error.\n' + err.stack);
