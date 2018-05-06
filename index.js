@@ -18,8 +18,8 @@ bot.on('message', function (event) {
             var options = {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'  },
-                form: {'data': encodeURIComponent(event.message.text)}
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                form: { 'data': encodeURIComponent(event.message.text) }
             };
             request(options, (reqErr, reqRes, body) => {
                 var replyStr = '';
@@ -63,10 +63,14 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/ngrok/url', (req, res, body) => {
-    if (body) {
-        console.log(body);
+    let bodyStr = '';
+    body.on('data', chunk => {
+        console.log('data received: ' + chunk.toString());
+        body += chunk.toString();
+    });
+    body.on('end', ()=>{
         var options = {
-            url: body.data,
+            url: bodyStr,
             method: 'GET',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         };
@@ -90,9 +94,7 @@ app.post('/ngrok/url', (req, res, body) => {
                 res.send('Fail with error code: ' + reqRes.statusCode);
             }
         });
-    }else {
-        //no body
-    }
+    });
 });
 
 app.get('/sql/settings/:setting_key', (req, res) => {
