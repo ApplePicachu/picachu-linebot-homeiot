@@ -39,8 +39,8 @@ app.post('/ngrok/url', (req, res) => {
                 if (!reqErr && reqRes.statusCode == 200){
                     console.log(body);
                 }
-            })
-            res.send('Success');
+                res.send('Success');
+            });
         }
     });
     
