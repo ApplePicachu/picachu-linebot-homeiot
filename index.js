@@ -23,8 +23,8 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/hgrok/url', (req, res) => {
-    console.log(req);
-    sqlManager.insertSetting({key:'test', value:''}, (err, res) => {
+    console.log(req.headers.data);
+    sqlManager.insertSetting({key:'ngrok_url', value:req.headers.data}, (err, res) => {
         if (err) {
             console.log('Error.\n'+err.stack);
         } else {
@@ -34,7 +34,7 @@ app.post('/hgrok/url', (req, res) => {
     res.send('Hello World!');
 })
 app.get('/hgrok/url', (req, res) => {
-    sqlManager.getSetting('test', (err, sqlRes) => {
+    sqlManager.getSetting('ngrok_url', (err, sqlRes) => {
         if (err) {
             console.log('Error.\n'+err.stack);
         } else {
