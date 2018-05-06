@@ -63,7 +63,7 @@ const linebotParser = bot.parser();
 const app = Express();
 
 app.post('/ngrok/url', (req, res) => {
-    console.log(req.headers.data);
+    console.log(req);
     var options = {
         url: req.headers.data,
         method: 'GET',
@@ -82,8 +82,10 @@ app.post('/ngrok/url', (req, res) => {
             });
         } else if (reqErr) {
             console.log('Error.\n' + reqErr.stack);
+            res.send('Error');
         } else {
-            console.log('Fail with error code: \n' + reqRes.statusCode);
+            console.log('Fail with error code: ' + reqRes.statusCode);
+            res.send('Fail with error code: ' + reqRes.statusCode);
         }
     });
 });
