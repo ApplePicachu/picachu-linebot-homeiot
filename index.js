@@ -18,8 +18,8 @@ bot.on('message', function (event) {
             var options = {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                form: { 'data': event.message.text }
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                           'data': event.message.text }
             };
             request(options, (reqErr, reqRes, body) => {
                 var replyStr = '';
