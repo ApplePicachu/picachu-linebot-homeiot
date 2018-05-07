@@ -71,7 +71,7 @@ app.post('/ngrok/url', (req, res) => {
     });
     req.on('end', ()=>{
         // bodyStr = decodeURIComponent(bodyStr);
-        bodyJsonObj = JSON.parse(bodyStr);
+        var bodyJsonObj = JSON.parse(bodyStr);
         var options = {
             url: bodyJsonObj.data,
             method: 'GET',
