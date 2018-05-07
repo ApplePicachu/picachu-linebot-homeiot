@@ -18,7 +18,7 @@ bot.on('message', function (event) {
             var options = {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
                 form: { 'data': encodeURIComponent(event.message.text) }
             };
             request(options, (reqErr, reqRes, body) => {
@@ -69,10 +69,12 @@ app.post('/ngrok/url', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', ()=>{
+        // bodyStr = decodeURIComponent(bodyStr);
+        bodyJsonObj = JSON.parse(bodyStr);
         var options = {
-            url: bodyStr,
+            url: bodyJsonObj.data,
             method: 'GET',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' }
         };
         console.log(options);
         request(options, (reqErr, reqRes, body) => {
