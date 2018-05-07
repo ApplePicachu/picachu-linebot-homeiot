@@ -70,7 +70,6 @@ app.post('/ngrok/url', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', ()=>{
-        // bodyStr = decodeURIComponent(bodyStr);
         var bodyJsonObj = JSON.parse(bodyStr);
         var options = {
             url: bodyJsonObj.data,
@@ -85,8 +84,15 @@ app.post('/ngrok/url', (req, res) => {
                     if (sqlErr) {
                         console.log('Error.\n' + sqlErr.stack);
                     } else {
-                        console.log('Success.\n' + JSON.stringify(sqlRes));
+                        console.log('Success insert ngrok_url.\n' + JSON.stringify(sqlRes));
                         res.send('Success');
+                    }
+                });
+                sqlManager.insertSetting({ key: 'home_iot', value: body }, (sqlErr, sqlRes) => {
+                    if (sqlErr) {
+                        console.log('Error.\n' + sqlErr.stack);
+                    } else {
+                        console.log('Success insert home_iot.\n' + JSON.stringify(sqlRes));
                     }
                 });
             } else if (reqErr) {
