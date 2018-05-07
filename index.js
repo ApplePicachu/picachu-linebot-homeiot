@@ -11,6 +11,10 @@ var bot = Linebot({
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
+
+var ngrokUrl = '';
+var homeIotConfig = {};
+
 bot.on('message', function (event) {
     sqlManager.getSetting('ngrok_url', (sqlErr, sqlRes) => {
         if (!sqlErr) {
@@ -81,18 +85,20 @@ app.post('/ngrok/url', (req, res) => {
             if (!reqErr && reqRes.statusCode == 200) {
                 console.log(body);
                 sqlManager.insertSetting({ key: 'ngrok_url', value: options.url }, (sqlErr, sqlRes) => {
-                    if (sqlErr) {
-                        console.log('Error.\n' + sqlErr.stack);
-                    } else {
+                    if (!sqlErr) {
                         console.log('Success insert ngrok_url.\n' + JSON.stringify(sqlRes));
                         res.send('Success');
+                        ngrokUrl = options.url;
+                    } else {
+                        console.log('Error insert ngrok_url.\n' + sqlErr.stack);
                     }
                 });
                 sqlManager.insertSetting({ key: 'home_iot', value: body }, (sqlErr, sqlRes) => {
-                    if (sqlErr) {
-                        console.log('Error.\n' + sqlErr.stack);
-                    } else {
+                    if (!sqlErr) {
                         console.log('Success insert home_iot.\n' + JSON.stringify(sqlRes));
+                        homeIotConfig = JSON.parse(body);
+                    } else {
+                        console.log('Error insert home_iot.\n' + sqlErr.stack);
                     }
                 });
             } else if (reqErr) {
@@ -137,7 +143,27 @@ connectSqlAsyncRun().then((sqlManager) => {
             if (err) {
                 console.log('Create table error.\n' + err.stack);
             } else {
-                if (res == true) console.log('Table exists');
+                if (res == true) {
+                    console.log('Table exists');
+                    sqlManager.getSetting('ngrok_url', (err, sqlRes) => {
+                        if (!err) {
+                            console.log('Success.\n' + JSON.stringify(sqlRes));
+                            if (sqlRes.rows[0]) ngrokUrl = sqlRes.rows[0].value;
+                            console.log(ngrokUrl);
+                        } else {
+                            console.log('Error.\n' + err.stack);
+                        }
+                    });
+                    sqlManager.getSetting('home_iot', (err, sqlRes) => {
+                        if (!err) {
+                            console.log('Success.\n' + JSON.stringify(sqlRes));
+                            if (sqlRes.rows[0]) homeIotConfig = JSON.parse(sqlRes.rows[0].value);
+                            console.log(homeIotConfig);
+                        } else {
+                            console.log('Error.\n' + err.stack);
+                        }
+                    });
+                }
                 else console.log('Create table success.\n' + JSON.stringify(res));
             }
         });
