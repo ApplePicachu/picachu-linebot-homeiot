@@ -19,7 +19,8 @@ bot.on('message', function (event) {
                 url: sqlRes.rows[0].value,
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                form: { 'data': encodeURIComponent(event.message.text) }
+                body: JSON.stringify({'data': event.message.text})
+                // body: JSON.stringify({'data': encodeURIComponent(event.message.text)})
             };
             request(options, (reqErr, reqRes, body) => {
                 var replyStr = '';
@@ -80,7 +81,7 @@ app.post('/ngrok/url', (req, res) => {
         request(options, (reqErr, reqRes, body) => {
             if (!reqErr && reqRes.statusCode == 200) {
                 console.log(body);
-                sqlManager.insertSetting({ key: 'ngrok_url', value: req.body.data }, (sqlErr, sqlRes) => {
+                sqlManager.insertSetting({ key: 'ngrok_url', value: options.url }, (sqlErr, sqlRes) => {
                     if (sqlErr) {
                         console.log('Error.\n' + sqlErr.stack);
                     } else {
