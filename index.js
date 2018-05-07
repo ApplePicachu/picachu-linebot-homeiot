@@ -16,43 +16,40 @@ var ngrokUrl = '';
 var homeIotConfig = {};
 
 bot.on('message', function (event) {
-    sqlManager.getSetting('ngrok_url', (sqlErr, sqlRes) => {
-        if (!sqlErr) {
-            console.log('Success.\n' + JSON.stringify(sqlRes));
-            var options = {
-                url: sqlRes.rows[0].value,
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                body: JSON.stringify({'data': event.message.text})
-                // body: JSON.stringify({'data': encodeURIComponent(event.message.text)})
-            };
-            request(options, (reqErr, reqRes, body) => {
-                var replyStr = '';
-                if (!reqErr && reqRes.statusCode == 200) {
-                    console.log(body);
-                    replyStr = body;
-                } else if (reqErr) {
-                    console.log('Error. Request ngrok_url error.\n' + reqErr.stack);
-                    replyStr = 'Request ngrok_url error.';
-                } else {
-                    console.log('Request ngrok_url with error code:' + reqRes.statusCode);
-                    replyStr = 'Request ngrok_url with error code: ' + reqRes.statusCode;
-                }
-                event.reply(decodeURIComponent(replyStr))
-                    .catch(function (err) {
-                        // Line event send error
-                        console.log('Error.\n' + err.stack);
-                    });
-            });
-        } else {
-            console.log('Error.\n' + sqlErr.stack);
-            event.reply('No ngrok_url in database.')
-                .catch((err) => {
+    if (ngrokUrl.length>0) {
+        var options = {
+            url: ngrokUrl,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify({'data': event.message.text})
+            // body: JSON.stringify({'data': encodeURIComponent(event.message.text)})
+        };
+        request(options, (reqErr, reqRes, body) => {
+            var replyStr = '';
+            if (!reqErr && reqRes.statusCode == 200) {
+                console.log(body);
+                replyStr = body;
+            } else if (reqErr) {
+                console.log('Error. Request ngrok_url error.\n' + reqErr.stack);
+                replyStr = 'Request ngrok_url error.';
+            } else {
+                console.log('Request ngrok_url with error code:' + reqRes.statusCode);
+                replyStr = 'Request ngrok_url with error code: ' + reqRes.statusCode;
+            }
+            event.reply(decodeURIComponent(replyStr))
+                .catch(function (err) {
                     // Line event send error
                     console.log('Error.\n' + err.stack);
                 });
-        }
-    });
+        });
+    } else {
+        console.log('Error.\n' + sqlErr.stack);
+        event.reply('No ngrok_url in database.')
+            .catch((err) => {
+                // Line event send error
+                console.log('Error.\n' + err.stack);
+            });
+    }
 
     // event.reply(event.message.text)
     //     .then(function (data) {
