@@ -43,8 +43,8 @@ bot.on('message', function (event) {
                 });
         });
     } else {
-        console.log('Error.\n' + sqlErr.stack);
-        event.reply('No ngrok_url in database.')
+        console.log('Error ngrokUrl is empty.');
+        event.reply('ngrokUrl is empty.')
             .catch((err) => {
                 // Line event send error
                 console.log('Error.\n' + err.stack);
