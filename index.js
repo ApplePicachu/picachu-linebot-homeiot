@@ -30,11 +30,11 @@ bot.on('message', function (event) {
                 console.log(body);
                 replyStr = body;
             } else if (reqErr) {
-                console.log('Error. Request ngrok_url error.\n' + reqErr.stack);
-                replyStr = 'Request ngrok_url error.';
+                console.log('Error. Request ngrokUrl error.\n' + reqErr.stack);
+                replyStr = 'Request ngrokUrl error.';
             } else {
-                console.log('Request ngrok_url with error code:' + reqRes.statusCode);
-                replyStr = 'Request ngrok_url with error code: ' + reqRes.statusCode;
+                console.log('Request ngrokUrl with error code:' + reqRes.statusCode);
+                replyStr = 'Request ngrokUrl with error code: ' + reqRes.statusCode;
             }
             event.reply(decodeURIComponent(replyStr))
                 .catch(function (err) {
