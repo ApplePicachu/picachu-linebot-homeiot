@@ -120,7 +120,7 @@ app.get('/sql/settings/:setting_key', (req, res) => {
     });
 });
 
-app.post('/', linebotParser);
+app.post('/linebot', linebotParser);
 
 const connectSqlAsyncRun = async () => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
