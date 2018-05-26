@@ -44,11 +44,18 @@ bot.on('message', function (event) {
                     });
             });
         } else if (event.message.type == 'sticker') {
-            event.reply({ type: 'image', originalContentUrl: ngrokUrl + '/image/original', previewImageUrl: ngrokUrl + '/image/preview' })
-                .catch(function (err) {
-                    // Line event send error
-                    console.log('Error.\n' + err.stack);
-                });
+            var options = {
+                url: ngrokUrl+'/image/capture',
+                method: 'GET',
+            };
+            request(options, (reqErr, reqRes, body) => {
+                console.log(body);
+                event.reply({ type: 'image', originalContentUrl: ngrokUrl + '/image/original/'+body, previewImageUrl: ngrokUrl + '/image/preview/'+body })
+                    .catch(function (err) {
+                        // Line event send error
+                        console.log('Error.\n' + err.stack);
+                    });
+            });
         }
     } else {
         console.log('Error ngrokUrl is empty.');
