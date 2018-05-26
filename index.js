@@ -16,32 +16,40 @@ var ngrokUrl = '';
 var homeIotConfig = {};
 
 bot.on('message', function (event) {
-    if (ngrokUrl.length>0) {
-        var options = {
-            url: ngrokUrl,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify({'data': event.message.text})
-            // body: JSON.stringify({'data': encodeURIComponent(event.message.text)})
-        };
-        request(options, (reqErr, reqRes, body) => {
-            var replyStr = '';
-            if (!reqErr && reqRes.statusCode == 200) {
-                console.log(body);
-                replyStr = body;
-            } else if (reqErr) {
-                console.log('Error. Request ngrokUrl error.\n' + reqErr.stack);
-                replyStr = 'Request ngrokUrl error.';
-            } else {
-                console.log('Request ngrokUrl with error code:' + reqRes.statusCode);
-                replyStr = 'Request ngrokUrl with error code: ' + reqRes.statusCode;
-            }
-            event.reply(decodeURIComponent(replyStr))
+    if (ngrokUrl.length > 0) {
+        if (event.message.type == 'text') {
+            var options = {
+                url: ngrokUrl,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+                body: JSON.stringify({ 'data': event.message.text })
+                // body: JSON.stringify({'data': encodeURIComponent(event.message.text)})
+            };
+            request(options, (reqErr, reqRes, body) => {
+                var replyStr = '';
+                if (!reqErr && reqRes.statusCode == 200) {
+                    console.log(body);
+                    replyStr = body;
+                } else if (reqErr) {
+                    console.log('Error. Request ngrokUrl error.\n' + reqErr.stack);
+                    replyStr = 'Request ngrokUrl error.';
+                } else {
+                    console.log('Request ngrokUrl with error code:' + reqRes.statusCode);
+                    replyStr = 'Request ngrokUrl with error code: ' + reqRes.statusCode;
+                }
+                event.reply(decodeURIComponent(replyStr))
+                    .catch(function (err) {
+                        // Line event send error
+                        console.log('Error.\n' + err.stack);
+                    });
+            });
+        } else if (event.message.type == 'sticker') {
+            event.reply({ type: 'image', originalContentUrl: ngrokUrl + '/image/original', previewImageUrl: ngrokUrl + '/image/preview' })
                 .catch(function (err) {
                     // Line event send error
                     console.log('Error.\n' + err.stack);
                 });
-        });
+        }
     } else {
         console.log('Error ngrokUrl is empty.');
         event.reply('ngrokUrl is empty.')
@@ -58,11 +66,6 @@ bot.on('message', function (event) {
     //         // error
     //     });
 });
-bot.on('sticker', function(event) {
-    if (ngrokUrl.length>0) {
-        event.reply({type: 'image', originalContentUrl: ngrokUrl+'/image/original', previewImageUrl: ngrokUrl+'/image/preview'});
-    }
-});
 const linebotParser = bot.parser();
 
 //Express init.
@@ -74,7 +77,7 @@ app.post('/ngrok/url', (req, res) => {
         console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
     });
-    req.on('end', ()=>{
+    req.on('end', () => {
         var bodyJsonObj = JSON.parse(bodyStr);
         var options = {
             url: bodyJsonObj.data,
