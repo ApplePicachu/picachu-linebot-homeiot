@@ -105,6 +105,7 @@ app.post('/ngrok/url', (req, res) => {
                         console.log('Error insert home_iot.\n' + sqlErr.stack);
                     }
                 });
+                bot.push(homeIotConfig.users[0].lineId, 'ngrok_url updated');
             } else if (reqErr) {
                 console.log('Error.\n' + reqErr.stack);
                 res.send('Error');
