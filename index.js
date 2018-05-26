@@ -58,7 +58,11 @@ bot.on('message', function (event) {
     //         // error
     //     });
 });
-
+bot.on('sticker', function(event) {
+    if (ngrokUrl.length>0) {
+        event.reply({type: 'image', originalContentUrl: ngrokUrl+'/image/original', previewImageUrl: ngrokUrl+'/image/preview'});
+    }
+});
 const linebotParser = bot.parser();
 
 //Express init.
