@@ -137,6 +137,13 @@ app.get('/sql/settings/:setting_key', (req, res) => {
 
 app.post('/linebot', linebotParser);
 
+app.get('/notify', (req, res) => {
+    fs.readFile('line_notify.html',function (err, data){
+        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+        res.write(data);
+        res.end();
+});
+
 const connectSqlAsyncRun = async () => {
     const client = new Client({ connectionString: process.env.DATABASE_URL, });
     await client.connect();
