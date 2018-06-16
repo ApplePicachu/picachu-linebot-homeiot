@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
+        <%if (redirect){ %>
         var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
             URL += '&client_id=<%-clientId%>';
@@ -13,6 +14,7 @@
             URL += '&scope=notify';
             URL += '&state=NO_STATE';
         window.location.href = URL;
+        <% } %>
         function oAuth2() {
             var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
