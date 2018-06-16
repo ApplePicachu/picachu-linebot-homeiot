@@ -3,6 +3,7 @@ const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const request = require('request');
 const SqlManager = require('./sql_manager');
+const fs = require('fs');
 
 
 //Create linebot parser
