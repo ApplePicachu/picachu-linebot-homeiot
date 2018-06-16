@@ -150,10 +150,8 @@ app.get('/notify', (req, res) => {
     //DMyqPZR0bZRdwNCidPkc2esPsCRepRd7WGACKnObuY5
 });
 app.get('/notify/callback', (req, res) => {
-    console.log("req.params.code " + req.params.code);
-    console.log("req.param " + req.param('code'));
-    bot.push(homeIotConfig.users[0].lineId, req.params.code);
-    res.send(req.params.code);
+    bot.push(homeIotConfig.users[0].lineId, req.param('code'));
+    res.send(req.param('code'));
 });
 
 const connectSqlAsyncRun = async () => {
