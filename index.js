@@ -77,7 +77,7 @@ const linebotParser = bot.parser();
 
 //Express init.
 const app = Express();
-app.set('view engine', 'pug');//Use Hogan.js view enging.
+app.set('view engine', 'html');//Use Hogan.js view enging.
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
