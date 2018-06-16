@@ -3,7 +3,6 @@ const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const request = require('request');
 const SqlManager = require('./sql_manager');
-var hogan = require("hogan.js");
 
 
 //Create linebot parser
@@ -79,7 +78,6 @@ const linebotParser = bot.parser();
 //Express init.
 const app = Express();
 app.set('view engine','hogan.js'); //Use Hogan.js view enging.
-app.register('hogan.js',adapter.init(hogan));
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
