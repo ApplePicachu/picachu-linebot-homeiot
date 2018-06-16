@@ -139,11 +139,19 @@ app.get('/sql/settings/:setting_key', (req, res) => {
 app.post('/linebot', linebotParser);
 
 app.get('/notify', (req, res) => {
-    fs.readFile('line_notify.html',function (err, data){
-        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
-        res.write(data);
-        res.end();
-    });
+    res.render('line_notify.html', {clientId: 'VN0rUDsearCp7ZxlNUCMQw'});
+    // fs.readFile('line_notify.html',function (err, data){
+    //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+    //     res.write(data);
+    //     res.end();
+    // });
+    //https://picachu-linebot-homeiot.herokuapp.com/notify/callback?code=yajX6C2arGIaFXucZXJuTJ&state=NO_STATE
+    //VN0rUDsearCp7ZxlNUCMQw
+    //rKqvn1rNhfAdYGNwxtm9qdqp3ltjBeCMgIm825L16DG
+    //DMyqPZR0bZRdwNCidPkc2esPsCRepRd7WGACKnObuY5
+});
+app.get('/notify/callback', (req, res) => {
+
 });
 
 const connectSqlAsyncRun = async () => {

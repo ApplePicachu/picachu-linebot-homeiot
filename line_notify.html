@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="tw">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        // var URL = 'https://notify-bot.line.me/oauth/authorize?';
+        // URL += 'response_type=code';
+        // URL += '&client_id={{clientId}}';
+        // URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
+        // URL += '&scope=notify';
+        // URL += '&state=NO_STATE';
+        // window.location.href = URL;
         function oAuth2() {
             var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
-            URL += '&client_id=VN0rUDsearCp7ZxlNUCMQw';
+            URL += '&client_id={{clientId}}';
             URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
             URL += '&scope=notify';
             URL += '&state=NO_STATE';
             window.location.href = URL;
         }
     </script>
-    </head>
-    <body>
-        <button onclick="oAuth2();"> 連結到 LineNotify 按鈕 </button>
-    </body>
+</head>
+
+<body>
+    <button onclick="oAuth2();"> 連結到 LineNotify 按鈕 </button>
+</body>
+
 </html>
