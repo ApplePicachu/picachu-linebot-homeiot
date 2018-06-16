@@ -3,7 +3,6 @@ const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const request = require('request');
 const SqlManager = require('./sql_manager');
-const fs = require('fs');
 
 
 //Create linebot parser
@@ -46,12 +45,12 @@ bot.on('message', function (event) {
             });
         } else if (event.message.type == 'sticker') {
             var options = {
-                url: ngrokUrl+'/image/capture',
+                url: ngrokUrl + '/image/capture',
                 method: 'GET',
             };
             request(options, (reqErr, reqRes, body) => {
                 console.log(body);
-                event.reply({ type: 'image', originalContentUrl: ngrokUrl + '/image/original/'+body, previewImageUrl: ngrokUrl + '/image/preview/'+body })
+                event.reply({ type: 'image', originalContentUrl: ngrokUrl + '/image/original/' + body, previewImageUrl: ngrokUrl + '/image/preview/' + body })
                     .catch(function (err) {
                         // Line event send error
                         console.log('Error.\n' + err.stack);
@@ -139,7 +138,7 @@ app.get('/sql/settings/:setting_key', (req, res) => {
 app.post('/linebot', linebotParser);
 
 app.get('/notify', (req, res) => {
-    res.render(__dirname + 'line_notify.html', {clientId: 'VN0rUDsearCp7ZxlNUCMQw'});
+    res.render(__dirname + 'line_notify.html', { clientId: 'VN0rUDsearCp7ZxlNUCMQw' });
     // fs.readFile('line_notify.html',function (err, data){
     //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
     //     res.write(data);
@@ -151,7 +150,8 @@ app.get('/notify', (req, res) => {
     //DMyqPZR0bZRdwNCidPkc2esPsCRepRd7WGACKnObuY5
 });
 app.get('/notify/callback', (req, res) => {
-
+    bot.push(homeIotConfig.users[0].lineId, req.params);
+    res.json(req.params);
 });
 
 const connectSqlAsyncRun = async () => {
