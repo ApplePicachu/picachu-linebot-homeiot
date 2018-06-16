@@ -3,8 +3,6 @@ const { Client } = require('pg')
 const Linebot = require('linebot');//Line Bot API
 const request = require('request');
 const SqlManager = require('./sql_manager');
-const fs = require('fs');
-var hogan = require("hogan.js");
 
 //Create linebot parser
 var bot = Linebot({
@@ -15,10 +13,6 @@ var bot = Linebot({
 
 var ngrokUrl = '';
 var homeIotConfig = {};
-var template = {};
-fs.readFile('line_notify.html', function (err, data) {
-    template = hogan.compile(data);
-});
 
 bot.on('message', function (event) {
     if (ngrokUrl.length > 0) {
@@ -82,6 +76,7 @@ const linebotParser = bot.parser();
 
 //Express init.
 const app = Express();
+app.set('view engine', 'ejs');  
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
@@ -143,7 +138,7 @@ app.get('/sql/settings/:setting_key', (req, res) => {
 app.post('/linebot', linebotParser);
 
 app.get('/notify', (req, res) => {
-    res.send(template.render({ clientId: 'VN0rUDsearCp7ZxlNUCMQw' }));//Use Hogan.js enging to render html.
+    res.render('line_notify', { clientId: 'VN0rUDsearCp7ZxlNUCMQw' });//Use Hogan.js enging to render html.
     // fs.readFile('line_notify.html',function (err, data){
     //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
     //     res.write(data);
