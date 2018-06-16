@@ -77,6 +77,7 @@ const linebotParser = bot.parser();
 
 //Express init.
 const app = Express();
+app.set('view engine', 'pug');//Use Hogan.js view enging.
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
@@ -138,7 +139,7 @@ app.get('/sql/settings/:setting_key', (req, res) => {
 app.post('/linebot', linebotParser);
 
 app.get('/notify', (req, res) => {
-    res.render('./line_notify.hjs', { clientId: 'VN0rUDsearCp7ZxlNUCMQw' });
+    res.render('./line_notify', { clientId: 'VN0rUDsearCp7ZxlNUCMQw' });//Use Hogan.js enging to render html.
     // fs.readFile('line_notify.html',function (err, data){
     //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
     //     res.write(data);
