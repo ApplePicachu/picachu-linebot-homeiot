@@ -6,28 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        <%if (redirect){ %>
+        <%if (redirect) { %>
         var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
             URL += '&client_id=<%-clientId%>';
             URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
             URL += '&scope=notify';
-            URL += '&state=NO_STATE';
-        window.location.href = URL;
-        <% } %>
-        function oAuth2() {
-            var URL = 'https://notify-bot.line.me/oauth/authorize?';
-            URL += 'response_type=code';
-            URL += '&client_id=<%-clientId%>';
-            URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
-            URL += '&scope=notify';
-            URL += '&state=NO_STATE';
+            URL += '&state=<%-state%>';
             window.location.href = URL;
-        }
+        <% } %>
+            function oAuth2() {
+                var URL = 'https://notify-bot.line.me/oauth/authorize?';
+                URL += 'response_type=code';
+                URL += '&client_id=<%-clientId%>';
+                URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
+                URL += '&scope=notify';
+                URL += '&state=';
+                URL += document.getElementById("myText").value; 
+                window.location.href = URL;
+            }
     </script>
 </head>
 
 <body>
+    <form>
+        請輸入文字： <input id="myText" type="text" name="欄位名稱">
+    </form>
     <button onclick="oAuth2();"> 連結到 LineNotify 按鈕 </button>
 </body>
 
