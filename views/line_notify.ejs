@@ -11,7 +11,7 @@
             URL += 'response_type=code';
             URL += '&client_id=<%-clientId%>';
             URL += '&redirect_uri=';
-            URL += window.location.href;
+            URL += location.protocol + '//' + location.host + location.pathname
             URL += '/callback'//relative route
             URL += '&scope=notify';
             URL += '&state=<%-state%>';
@@ -22,7 +22,7 @@
                 URL += 'response_type=code';
                 URL += '&client_id=<%-clientId%>';
                 URL += '&redirect_uri=';
-                URL += window.location.href;
+                URL += location.protocol + '//' + location.host + location.pathname
                 URL += '/callback'//relative route
                 URL += '&scope=notify';
                 URL += '&state=';
