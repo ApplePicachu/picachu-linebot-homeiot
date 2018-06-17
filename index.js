@@ -140,10 +140,13 @@ app.post('/linebot', linebotParser);
 app.get('/notify', (req, res) => {
     var templateData = {}
     templateData.clientId = 'VN0rUDsearCp7ZxlNUCMQw';
+    console.log('state=' + req.param('state'));
     if (req.param('state') && req.param('state') > 0){
+        console.log('state in if=' + req.param('state'));
         templateData.state = req.param('state');
     }
     else {
+        console.log('state in else=' + req.param('state'));
         templateData.state = 'NO_STATE';//default value
     }
     if (req.param('redirect') && req.param('redirect') == 'true'){
