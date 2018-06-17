@@ -176,8 +176,9 @@ app.post('/notify/callback', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', () => {
-        bodyObj = JSON.parse('{"' + decodeURI(bodyStr).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
-        console.log('bodyObj: ' + bodyObj.stringify());
+        bodyObj = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) })
+        // JSON.parse('{"' + decodeURI(bodyStr).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+        console.log('bodyObj: ' + bodyObj);
 
         var state = bodyObj.state;
         var code = bodyObj.code;
