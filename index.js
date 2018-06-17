@@ -11,6 +11,11 @@ var bot = Linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
+const lineNotify = {
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET
+}
+
 var ngrokUrl = '';
 var homeIotConfig = {};
 
@@ -139,14 +144,11 @@ app.post('/linebot', linebotParser);
 
 app.get('/notify', (req, res) => {
     var templateData = {}
-    templateData.clientId = 'VN0rUDsearCp7ZxlNUCMQw';
-    console.log('state=' + req.param('state'));
+    templateData.clientId = lineNotify.clientId;
     if (req.param('state') && req.param('state').length > 0){
-        console.log('state in if=' + req.param('state'));
         templateData.state = req.param('state');
     }
     else {
-        console.log('state in else=' + req.param('state'));
         templateData.state = 'NO_STATE';//default value
     }
     if (req.param('redirect') && req.param('redirect') == 'true'){
@@ -154,23 +156,21 @@ app.get('/notify', (req, res) => {
     }else{
         templateData.redirect = false;
     }
-    res.render('line_notify', templateData);
-
-    // res.render('line_notify', { redirect: false, clientId: 'VN0rUDsearCp7ZxlNUCMQw'});//Use Hogan.js enging to render html.
-    // res.render('line_notify', { redirect: true, clientId: 'VN0rUDsearCp7ZxlNUCMQw' , state:'NO_STATE'});//Use Hogan.js enging to render html.
-    // fs.readFile('line_notify.html',function (err, data){
-    //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
-    //     res.write(data);
-    //     res.end();
-    // });
-    //https://picachu-linebot-homeiot.herokuapp.com/notify/callback?code=yajX6C2arGIaFXucZXJuTJ&state=NO_STATE
-    //VN0rUDsearCp7ZxlNUCMQw
-    //rKqvn1rNhfAdYGNwxtm9qdqp3ltjBeCMgIm825L16DG
-    //DMyqPZR0bZRdwNCidPkc2esPsCRepRd7WGACKnObuY5
+    res.render('line_notify', templateData);//Use Hogan.js enging to render html.
 });
 app.get('/notify/callback', (req, res) => {
+    console.log('/notify/callback GET');
+    var state = req.param('state');
     bot.push(homeIotConfig.users[0].lineId, req.param('code'));
     res.send(req.param('code'));
+
+});
+app.post('/notify/callback', (req, res) => {
+    console.log('/notify/callback POST');
+    var state = req.param('state');
+    bot.push(homeIotConfig.users[0].lineId, req.param('code'));
+    res.send(req.param('code'));
+    
 });
 
 const connectSqlAsyncRun = async () => {
