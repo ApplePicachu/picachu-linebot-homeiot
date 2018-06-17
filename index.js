@@ -170,16 +170,19 @@ app.get('/notify/callback', (req, res) => {
 app.post('/notify/callback', (req, res) => {
     console.log('/notify/callback POST');
     let bodyStr = '';
+    var bodyObj = {};
     req.on('data', chunk => {
         console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
     });
-    console.log('body ' + req.body.code);;
-    console.log('header ' + req.get('code'));
-    var state = req.param('state');
-    bot.push(homeIotConfig.users[0].lineId, req.param('code'));
-    res.send(req.param('code'));
-    
+    req.on('end', () => {
+        bodyObj = getFormDataAsJSON(bodyStr);
+        console.log('bodyObj: ' + bodyObj.stringify());
+    });
+    var state = bodyObj.state;
+    var code = bodyObj.code;
+    bot.push(homeIotConfig.users[0].lineId, code);
+    res.send(code);
 });
 
 const connectSqlAsyncRun = async () => {
