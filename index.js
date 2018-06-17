@@ -176,7 +176,7 @@ app.post('/notify/callback', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', () => {
-        bodyObj = new FormData(bodyStr);
+        bodyObj = JSON.parse('{"' + decodeURI(bodyStr).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
         console.log('bodyObj: ' + bodyObj.stringify());
 
         var state = bodyObj.state;
