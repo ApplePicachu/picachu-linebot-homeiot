@@ -12,22 +12,24 @@
             URL += '&client_id=<%-clientId%>';
             URL += '&redirect_uri=';
             URL += window.location.href;
-            URL += '/notify/callback'
+            URL += '/callback'//relative route
             URL += '&scope=notify';
             URL += '&state=<%-state%>';
-            window.location.href = URL;
+            window.location.href = URL;//redirect
         <% } else { %>
             function oAuth2() {
                 var URL = 'https://notify-bot.line.me/oauth/authorize?';
                 URL += 'response_type=code';
                 URL += '&client_id=<%-clientId%>';
-                URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
+                URL += '&redirect_uri=';
+                URL += window.location.href;
+                URL += '/callback'//relative route
                 URL += '&scope=notify';
                 URL += '&state=';
                 URL += document.getElementById("stateText").value;
-                window.location.href = URL;
+                window.location.href = URL;//redirect
             }
-            <% } %>
+        <% } %>
     </script>
 </head>
 

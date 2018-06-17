@@ -140,15 +140,21 @@ app.post('/linebot', linebotParser);
 app.get('/notify', (req, res) => {
     var templateData = {}
     templateData.clientId = 'VN0rUDsearCp7ZxlNUCMQw';
-
+    if (req.param('state').length > 0){
+        templateData.state = req.param('state');
+    }
+    else {
+        templateData.state = 'NO_STATE';
+    }
     if (req.param('redirect') == 'true'){
         templateData.redirect = true;
-        // res.render('line_notify', templateData);
     }else{
         templateData.redirect = false;
     }
+    res.render('line_notify', templateData);
+
     // res.render('line_notify', { redirect: false, clientId: 'VN0rUDsearCp7ZxlNUCMQw'});//Use Hogan.js enging to render html.
-    res.render('line_notify', { redirect: true, clientId: 'VN0rUDsearCp7ZxlNUCMQw' , state:'NO_STATE'});//Use Hogan.js enging to render html.
+    // res.render('line_notify', { redirect: true, clientId: 'VN0rUDsearCp7ZxlNUCMQw' , state:'NO_STATE'});//Use Hogan.js enging to render html.
     // fs.readFile('line_notify.html',function (err, data){
     //     res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
     //     res.write(data);
