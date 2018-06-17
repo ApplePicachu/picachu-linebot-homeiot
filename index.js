@@ -186,7 +186,7 @@ app.post('/notify/callback', (req, res) => {
             form:{
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: 'https://picachu-linebot-homeiot.herokuapp.com/notify/callback',
+                redirect_uri: (req.protocol + '://' + req.get('host') + req.originalUrl),
                 client_id: lineNotify.clientId,
                 client_secret: lineNotify.clientSecret
             }
