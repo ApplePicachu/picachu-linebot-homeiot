@@ -165,7 +165,6 @@ app.get('/notify/callback', (req, res) => {
     var state = req.param('state');
     bot.push(homeIotConfig.users[0].lineId, req.param('code'));
     res.send(req.param('code'));
-
 });
 app.post('/notify/callback', (req, res) => {
     console.log('/notify/callback POST');
@@ -192,15 +191,12 @@ app.post('/notify/callback', (req, res) => {
                 client_secret: lineNotify.clientSecret
             }
         };
-        console.log('options: ' + JSON.stringify(options));
         request(options, (reqErr, reqRes, body) => {
-            console.log('request received: ' + body);
             var requestBodyObj = JSON.parse(body);
             bot.push(homeIotConfig.users[0].lineId, requestBodyObj.access_token);
+            res.send(requestBodyObj.access_token);
         });
-        res.send(code);
     });
-
 });
 
 const connectSqlAsyncRun = async () => {
