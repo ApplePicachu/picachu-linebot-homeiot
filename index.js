@@ -172,7 +172,6 @@ app.post('/notify/callback', (req, res) => {
     let bodyStr = '';
     var bodyObj = {};
     req.on('data', chunk => {
-        console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
     });
     req.on('end', () => {
@@ -193,7 +192,7 @@ app.post('/notify/callback', (req, res) => {
                 client_secret: lineNotify.clientSecret
             }
         };
-        console.log('options: ' + options.stringify());
+        console.log('options: ' + JSON.stringify(options));
         request(options, (reqErr, reqRes, body) => {
             console.log('request received: ' + body);
             var requestBodyObj = JSON.parse(body);
