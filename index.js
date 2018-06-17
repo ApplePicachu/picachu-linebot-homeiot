@@ -85,10 +85,12 @@ app.set('view engine', 'ejs');
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
+    //transmit body
     req.on('data', chunk => {
         console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
     });
+    //end of transmit body
     req.on('end', () => {
         var bodyJsonObj = JSON.parse(bodyStr);
         var options = {
@@ -167,6 +169,11 @@ app.get('/notify/callback', (req, res) => {
 });
 app.post('/notify/callback', (req, res) => {
     console.log('/notify/callback POST');
+    req.on('data', chunk => {
+        console.log('data received: ' + chunk.toString());
+        bodyStr += chunk.toString();
+    });
+    console.log('header' + req.get('code'));
     var state = req.param('state');
     bot.push(homeIotConfig.users[0].lineId, req.param('code'));
     res.send(req.param('code'));
