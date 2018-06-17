@@ -10,7 +10,7 @@
         var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
             URL += '&client_id=<%-clientId%>';
-            URL += '&redirect_uri=/callback';
+            URL += '&redirect_uri=./notify/callback';
             URL += '&scope=notify';
             URL += '&state=<%-state%>';
             window.location.href = URL;
