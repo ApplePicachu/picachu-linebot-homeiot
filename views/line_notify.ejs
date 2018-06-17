@@ -10,11 +10,11 @@
         var URL = 'https://notify-bot.line.me/oauth/authorize?';
             URL += 'response_type=code';
             URL += '&client_id=<%-clientId%>';
-            URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
+            URL += '&redirect_uri=/callback';
             URL += '&scope=notify';
             URL += '&state=<%-state%>';
             window.location.href = URL;
-        <% } %>
+        <% }  else { %>
             function oAuth2() {
                 var URL = 'https://notify-bot.line.me/oauth/authorize?';
                 URL += 'response_type=code';
@@ -25,6 +25,7 @@
                 URL += document.getElementById("myText").value; 
                 window.location.href = URL;
             }
+        <% } %>
     </script>
 </head>
 
