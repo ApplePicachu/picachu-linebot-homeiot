@@ -194,7 +194,7 @@ app.post('/notify/callback', (req, res) => {
         request(options, (reqErr, reqRes, body) => {
             var requestBodyObj = JSON.parse(body);
             bot.push(homeIotConfig.users[0].lineId, requestBodyObj.access_token);
-            //res.send(requestBodyObj.access_token);
+            res.send('Success\n' + requestBodyObj.access_token);
         });
     });
 });
