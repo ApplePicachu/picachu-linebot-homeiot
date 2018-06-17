@@ -169,6 +169,7 @@ app.get('/notify/callback', (req, res) => {
 });
 app.post('/notify/callback', (req, res) => {
     console.log('/notify/callback POST');
+    let bodyStr = '';
     req.on('data', chunk => {
         console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
