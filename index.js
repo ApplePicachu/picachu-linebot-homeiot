@@ -143,7 +143,7 @@ app.get('/notify', (req, res) => {
 
     if (req.param('redirect') == 'true'){
         templateData.redirect = true;
-        res.render('line_notify', templateData);
+        // res.render('line_notify', templateData);
     }else{
     }
     // res.render('line_notify', { redirect: false, clientId: 'VN0rUDsearCp7ZxlNUCMQw'});//Use Hogan.js enging to render html.
