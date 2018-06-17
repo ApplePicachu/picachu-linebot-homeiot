@@ -186,11 +186,12 @@ app.post('/notify/callback', (req, res) => {
             form:{
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: (req.protocol + '://' + req.get('host') + req.originalUrl),
+                redirect_uri: req.protocol + '://' + req.get('host') + req.originalUrl,
                 client_id: lineNotify.clientId,
                 client_secret: lineNotify.clientSecret
             }
         };
+        console.log(options.form.redirect_uri);
         request(options, (reqErr, reqRes, body) => {
             var requestBodyObj = JSON.parse(body);
             bot.push(homeIotConfig.users[0].lineId, requestBodyObj.access_token);
