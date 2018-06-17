@@ -81,7 +81,7 @@ const linebotParser = bot.parser();
 
 //Express init.
 const app = Express();
-app.set('view engine', 'ejs');  
+app.set('view engine', 'ejs');
 
 app.post('/ngrok/url', (req, res) => {
     let bodyStr = '';
@@ -147,15 +147,15 @@ app.post('/linebot', linebotParser);
 app.get('/notify', (req, res) => {
     var templateData = {}
     templateData.clientId = lineNotify.clientId;
-    if (req.param('state') && req.param('state').length > 0){
+    if (req.param('state') && req.param('state').length > 0) {
         templateData.state = req.param('state');
     }
     else {
         templateData.state = 'NO_STATE';//default value
     }
-    if (req.param('redirect') && req.param('redirect') == 'true'){
+    if (req.param('redirect') && req.param('redirect') == 'true') {
         templateData.redirect = true;
-    }else{
+    } else {
         templateData.redirect = false;
     }
     res.render('line_notify', templateData);//Use Hogan.js enging to render html.
@@ -176,12 +176,15 @@ app.post('/notify/callback', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', () => {
-        bodyObj = getFormDataAsJSON(bodyStr);
+        bodyObj = new FormData(bodyStr);
         console.log('bodyObj: ' + bodyObj.stringify());
+
+        var state = bodyObj.state;
+        var code = bodyObj.code;
+        bot.push(homeIotConfig.users[0].lineId, code);
+        res.send(code);
     });
-    var state = bodyObj.state;
-    var code = bodyObj.code;
-    bot.push(homeIotConfig.users[0].lineId, code);
+
 });
 
 const connectSqlAsyncRun = async () => {
