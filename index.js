@@ -145,6 +145,7 @@ app.get('/notify', (req, res) => {
         templateData.redirect = true;
         // res.render('line_notify', templateData);
     }else{
+        templateData.redirect = false;
     }
     // res.render('line_notify', { redirect: false, clientId: 'VN0rUDsearCp7ZxlNUCMQw'});//Use Hogan.js enging to render html.
     res.render('line_notify', { redirect: true, clientId: 'VN0rUDsearCp7ZxlNUCMQw' , state:'NO_STATE'});//Use Hogan.js enging to render html.

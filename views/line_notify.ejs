@@ -14,7 +14,7 @@
             URL += '&scope=notify';
             URL += '&state=<%-state%>';
             window.location.href = URL;
-        <% }  else { %>
+        <% } else { %>
             function oAuth2() {
                 var URL = 'https://notify-bot.line.me/oauth/authorize?';
                 URL += 'response_type=code';
@@ -22,18 +22,21 @@
                 URL += '&redirect_uri=https://picachu-linebot-homeiot.herokuapp.com/notify/callback';
                 URL += '&scope=notify';
                 URL += '&state=';
-                URL += document.getElementById("myText").value; 
+                URL += document.getElementById("stateText").value;
                 window.location.href = URL;
             }
-        <% } %>
+            <% } %>
     </script>
 </head>
 
 <body>
-    <form>
-        請輸入文字： <input id="myText" type="text" name="欄位名稱">
-    </form>
-    <button onclick="oAuth2();"> 連結到 LineNotify 按鈕 </button>
+    <%if (!redirect) { %>
+        <form>
+            請輸入文字：
+            <input id="stateText" type="text" name="欄位名稱" value="<%-state%>">
+        </form>
+        <button onclick="oAuth2();"> 連結到 LineNotify 按鈕 </button>
+    <% } %>
 </body>
 
 </html>
