@@ -182,7 +182,6 @@ app.post('/notify/callback', (req, res) => {
     var state = bodyObj.state;
     var code = bodyObj.code;
     bot.push(homeIotConfig.users[0].lineId, code);
-    res.send(code);
 });
 
 const connectSqlAsyncRun = async () => {
