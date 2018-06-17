@@ -173,7 +173,8 @@ app.post('/notify/callback', (req, res) => {
         console.log('data received: ' + chunk.toString());
         bodyStr += chunk.toString();
     });
-    console.log('header' + req.get('code'));
+    console.log('body ' + req.body.code);;
+    console.log('header ' + req.get('code'));
     var state = req.param('state');
     bot.push(homeIotConfig.users[0].lineId, req.param('code'));
     res.send(req.param('code'));
