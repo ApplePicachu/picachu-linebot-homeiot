@@ -141,7 +141,7 @@ app.get('/notify', (req, res) => {
     var templateData = {}
     templateData.clientId = 'VN0rUDsearCp7ZxlNUCMQw';
     console.log('state=' + req.param('state'));
-    if (req.param('state') && req.param('state') > 0){
+    if (req.param('state') && req.param('state').length > 0){
         console.log('state in if=' + req.param('state'));
         templateData.state = req.param('state');
     }
