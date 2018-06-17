@@ -92,9 +92,9 @@ app.post('/ngrok/url', (req, res) => {
     });
     //end of transmit body
     req.on('end', () => {
-        var bodyJsonObj = JSON.parse(bodyStr);
+        var bodyObj = JSON.parse(bodyStr);
         var options = {
-            url: bodyJsonObj.data,
+            url: bodyObj.data,
             method: 'GET',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' }
         };
@@ -176,13 +176,29 @@ app.post('/notify/callback', (req, res) => {
         bodyStr += chunk.toString();
     });
     req.on('end', () => {
-        bodyObj = JSON.parse('{"' + bodyStr.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) })
-        // JSON.parse('{"' + decodeURI(bodyStr).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
-        console.log('bodyObj: ' + bodyObj);
-
+        bodyObj = JSON.parse('{"' + bodyStr.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });//Parse query string to JSON object.
         var state = bodyObj.state;
         var code = bodyObj.code;
+
         bot.push(homeIotConfig.users[0].lineId, code);
+        var options = {
+            url: 'https://notify-bot.line.me/oauth/token',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+            form:{
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: 'https://picachu-linebot-homeiot.herokuapp.com/notify/callback',
+                client_id: lineNotify.clientId,
+                client_secret: lineNotify.clientSecret
+            }
+        };
+        console.log('options: ' + options.stringify());
+        request(options, (reqErr, reqRes, body) => {
+            console.log('request received: ' + body);
+            var requestBodyObj = JSON.parse(body);
+            bot.push(homeIotConfig.users[0].lineId, requestBodyObj.access_token);
+        });
         res.send(code);
     });
 
