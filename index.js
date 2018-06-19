@@ -186,7 +186,7 @@ app.post('/notify/callback', (req, res) => {
             form:{
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: req.protocol + 's://' + req.get('host') + req.originalUrl,//req.protocol not https???
+                redirect_uri: 'https://' + req.get('host') + req.originalUrl,//req.protocol not https???
                 client_id: lineNotify.clientId,
                 client_secret: lineNotify.clientSecret
             }

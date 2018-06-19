@@ -13,7 +13,7 @@
             URL += '&scope=notify';
             URL += '&client_id=<%-clientId%>';
             URL += '&redirect_uri=';
-            URL += location.protocol + '//' + location.host + location.pathname
+            URL +=  'https://' + location.host + location.pathname
             URL += '/callback'//relative route
             URL += '&state=<%-state%>';
             window.location.href = URL;//redirect
@@ -25,7 +25,7 @@
                 URL += '&scope=notify';
                 URL += '&client_id=<%-clientId%>';
                 URL += '&redirect_uri=';
-                URL += location.protocol + '//' + location.host + location.pathname
+                URL += 'https://' + location.host + location.pathname
                 URL += '/callback'//relative route
                 URL += '&state=';
                 URL += document.getElementById("stateText").value;
